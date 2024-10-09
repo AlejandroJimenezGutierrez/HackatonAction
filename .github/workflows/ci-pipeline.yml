@@ -1,0 +1,25 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        script: [test1.sh, test2.sh, test3.sh]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set execute permissions for test scripts
+        run: chmod +x ${{ matrix.script }}
+
+      - name: Run the test
+        run: ./${{ matrix.script }}
